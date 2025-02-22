@@ -38,6 +38,8 @@ let linkstr = ""
 let somethingstr = ""
 let valueframe = null
 
+
+
 export const SankeyPanel: React.FC<Props> = ({ options, data, width, height }) => {
   isDebug = options.isDebug 
   
@@ -145,13 +147,31 @@ export const SankeyPanel: React.FC<Props> = ({ options, data, width, height }) =
       targetstr = (targets)?.toString();
       nodestr = (JSON.stringify(nodecolor))?.toString();
       linkstr = (JSON.stringify(links))?.toString();
-      //somethingstr=valuesNumeric?.display?.toString();
-      //const v = valuesNumericvalues.map((value)
+      const displayValue = valuesNumeric.display!(0);
+
+      const displayval = (value,index) => {
+          const displayValue = valuesNumeric.display!(value);
+             return (displayValue.suffix ? displayValue.text + displayValue.suffix : '')
+      }
+      //somethingstr=valuesNumeric?.values.at(1).map(displayval).toString();
+      somethingstr=displayValue.suffix;
+      
+      // somethingstr=
+      // valuesNumeric
+      // ? valuesNumeric.values[0].map((value) => {
+      //     const displayValue = valuesNumeric.display!(value);
+      //     return (
+      //        { color: displayValue.color, text: displayValue.text, suffix:displayValue.suffix ? displayValue.suffix : ''}
+      //     )})
+      // : "nix".toString()
+      // //const v = valuesNumericvalues.map((value)
 
       //somethingstr = (JSON.stringify(valuesNumeric.display(500))).toString();
-      somethingstr = options.colorScheme
+      //somethingstr = options.colorScheme
       //somethingstr = getFieldDisplayName(valuesNumeric, frame)
-      console.log(nodestr);
+
+      //console.log(nodestr);
+
       //somethingstr = options.globalUnitFormat;
     }
     const graph = {nodes, links, colors};

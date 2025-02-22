@@ -43,7 +43,7 @@ export const plugin = new PanelPlugin<SankeyOptions>(SankeyPanel)
   //   },
   //   category: ['Global'],
   // })
-
+  
   .addSliderInput
   ({
     path: 'opacity',

@@ -11,7 +11,7 @@ export class Sankey {
     this._gBound = null;
 
     this._data = null;
-    this._data_color = null;
+    //this._displayValues = null;
     
     this._colors = null;
     this._nodes = null;
@@ -270,7 +270,7 @@ export class Sankey {
       .join('g');
 //        .style('mix-blend-mode', 'multiply');
 
-    if (this._edgeColor === 'path') this._setLinkGradient()
+    if (this._edgeColor === 'path')  {this._setLinkGradient()}
 
     this._svgLink
       .append('path')
@@ -310,13 +310,16 @@ export class Sankey {
   data(_) {
     return arguments.length ? (this._data = _, this) : this._data;
   };
-
-  data_color() {
-    if (this._data && this._data.colors && this._data.colors.length > 0 ) {
-      this._colorScale = d3.scaleOrdinal(this._data.nodes, this._data.colors);
-  }
-    return this;
+  displayValues(_) {
+    return arguments.length ? (this._displayValues = _, this) : this._displayValues;
   };
+
+  // data_color() {
+  //   if (this._data && this._data.colors && this._data.colors.length > 0 ) {
+  //     this._colorScale = d3.scaleOrdinal(this._data.nodes, this._data.colors);
+  // }
+  //   return this;
+  // };
 
   width(_) {
     return arguments.length ? (this._width = +_, this) : this._width;
