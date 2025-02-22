@@ -46,11 +46,13 @@ export class Sankey {
     this._displayValues = 'none';
     this._highlightOnHover = false;
 
-    this._opacity =0.3;
+    this._opacity = 0.3;
+    this._fontsize = 10;
+    this._fontcolor = "black";
 
-    this._globalDecimals =null;
-    this._globalUnitFormat =null;
-}
+    this._displayReference = null;
+    //this._displayFunction();
+ }
   
   _init() {
     this._setBoundDimensions();
@@ -209,7 +211,8 @@ export class Sankey {
   _labelNode(currentNode) {
     const nodesAtDepth = this._nodes.filter(node => node.depth === currentNode.depth);
     const totalAtDepth = d3.sum(nodesAtDepth, node => node.value);
-    const nodeValue = this._formatThousand(currentNode.value);
+    const nodedisplay = this._displayReference(parseFloat(currentNode.value));
+    const nodeValue = nodedisplay.text + nodedisplay.suffix;
     const nodePercent = this._formatPercent(currentNode.value / totalAtDepth);
 
     let label = currentNode.name;
@@ -283,8 +286,10 @@ export class Sankey {
     this._gBound
       .append('g')
         .attr('font-family', 'sans-serif')
-        .attr('font-size', 10)
-      .selectAll('text')
+        .attr('font-size', this._fontsize)
+        //.style("fill", d3.color(this._fontcolor).formatHex())
+        .style("fill",  this._fontcolor)
+        .selectAll('text')
       .data(this._nodes)
       .join('text')
         .attr('x', d => (d.x0 < this._width / 2 ? d.x1 + 6 : d.x0 - 6))
@@ -351,13 +356,16 @@ export class Sankey {
   opacity(_) {
     return arguments.length ? (this._opacity = _, this) : this._opacity;
   }
-  globalDecimals(_) {
-    return arguments.length ? (this._globalDecimals = _, this) : this._globalDecimals;
+  fontsize(_) {
+    return arguments.length ? (this._fontsize = _, this) : this._fontsize;
   }
-  globalUnitFormat(_) {
-    return arguments.length ? (this._globalUnitFormat = _, this) : this._globalUnitFormat;
+  fontcolor(_) {
+    return arguments.length ? (this._fontcolor = _, this) : this._fontcolor;
   }
-
+  displayReference(_) {
+    return arguments.length ? (this._displayReference = _, this) : this._displayReference;
+  }
+  
   render() {
     if (!this._validate()) {
       // no graph data

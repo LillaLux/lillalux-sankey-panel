@@ -1,7 +1,7 @@
-import { FieldConfigProperty,PanelPlugin } from '@grafana/data';
+import { FieldType, FieldConfigProperty,PanelPlugin, } from '@grafana/data';
 import { SankeyOptions } from './types';
 import { SankeyPanel } from './SankeyPanel';
-
+import { FieldEditor } from './FieldEditor';
 
 export const plugin = new PanelPlugin<SankeyOptions>(SankeyPanel)
 .useFieldConfig({
@@ -55,7 +55,39 @@ export const plugin = new PanelPlugin<SankeyOptions>(SankeyPanel)
       max: 1,
       step:0.1,
     },  })
-  .addTextInput({
+    .addSliderInput
+    ({
+      path: 'fontsize',
+      name: 'Font Size',
+      category: ['Layout'],
+      defaultValue: 10,
+      settings: {
+        min: 5,
+        max: 30,
+        step:1,
+      },  
+    })
+    .addColorPicker({
+      path: 'fontcolor',
+      name: 'Font color',
+      defaultValue: "black",
+      category: ['Layout'],
+      settings: {
+        disableNamedColors: true,
+      },
+    })
+    .addCustomEditor({
+      id: 'valueFieldName',
+      path: 'valueFieldName',
+      name: 'Field Value',
+      description: 'Defaults to the first number field.',
+      //category: ['Dimensions'],
+      editor: FieldEditor,
+      settings: {
+        filterByType: [FieldType.number],
+      },
+    })
+    .addTextInput({
     path: 'text',
     name: 'Simple text option',
     description: 'Description of panel option',

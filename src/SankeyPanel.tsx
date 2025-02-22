@@ -1,7 +1,7 @@
 // @ts-nocheck
 import React, { useState, useEffect } from 'react';
 import * as d3 from 'd3';
-import { PanelProps } from '@grafana/data';
+import { getDisplayProcessor, PanelProps } from '@grafana/data';
 import { SankeyOptions } from 'types';
 import { Sankey } from 'Sankey'
 import { ErrorMessage } from 'Error'
@@ -42,7 +42,6 @@ let valueframe = null
 
 export const SankeyPanel: React.FC<Props> = ({ options, data, width, height }) => {
   isDebug = options.isDebug 
-  
 
   const theme = useTheme2();
   const styles = useStyles2(getStyles);  
@@ -57,7 +56,8 @@ export const SankeyPanel: React.FC<Props> = ({ options, data, width, height }) =
 
   // -------------------------    REACT HOOKS    --------------------------
   const [ error, setError ] = useState({ isError: false, message: '' })
-  const [ graph, setGraph ] = useState({ nodes: [], links: [], colors: [] })
+  const [ graph, setGraph ] = useState({ nodes: [], links: [], colors: []})
+
 
   useEffect(() => {
     data.error
@@ -67,6 +67,22 @@ export const SankeyPanel: React.FC<Props> = ({ options, data, width, height }) =
       setGraph(buildGraph())
   }, [data])
 
+  // -------------------------    READ DATA FRAMES    --------------------------
+  //somethingstr  = data.series.length
+  somethingstr  = options.fontcolor
+  let displayReference
+  let sourceAccesor
+  let targetAccesor
+  let valueAccesor
+  if (data.series.length > 0)  {
+    const frame = data.series[0];
+
+    sourceAccesor = frame.fields.find(field => field.name === CHART_REQUIRED_FIELDS.source);
+    targetAccesor = frame.fields.find(field => field.name === CHART_REQUIRED_FIELDS.target);
+    valueAccesor = frame.fields.find(field => field.name === CHART_REQUIRED_FIELDS.value);
+    displayReference = valueAccesor.display
+  }
+  
   // -------------------------  DATA ACQUISITION  -------------------------
   const validate = (sources, targets, values) => {
     let isValid = true;
@@ -114,15 +130,6 @@ export const SankeyPanel: React.FC<Props> = ({ options, data, width, height }) =
   }
 
   const buildGraph = () => {
-    const frame = data.series[0];
-
-    const sourceAccesor = frame.fields.find(field => field.name === CHART_REQUIRED_FIELDS.source);
-    const targetAccesor = frame.fields.find(field => field.name === CHART_REQUIRED_FIELDS.target);
-    const valueAccesor = frame.fields.find(field => field.name === CHART_REQUIRED_FIELDS.value);
-    const valuesNumeric = frame.fields.find(field => field.name === CHART_REQUIRED_FIELDS.value);
-    
-    //const colorAccesor = frame.fields.find(field => field.name === CHART_OPTIONAL_FIELDS.color_);
-
     const sources = sourceAccesor?.values.toArray();
     const targets = targetAccesor?.values.toArray();
     const values = valueAccesor?.values.toArray();
@@ -139,40 +146,14 @@ export const SankeyPanel: React.FC<Props> = ({ options, data, width, height }) =
 
     const colors = getcolor(nodecolor)
     const nodes = getnode(nodecolor)
-    
-    //colorstr = (colors)?.toString()
+    const displayReference = valueAccesor.display
     
     if (isDebug){
       sourcestr = (sources)?.toString();
       targetstr = (targets)?.toString();
       nodestr = (JSON.stringify(nodecolor))?.toString();
       linkstr = (JSON.stringify(links))?.toString();
-      const displayValue = valuesNumeric.display!(0);
-
-      const displayval = (value,index) => {
-          const displayValue = valuesNumeric.display!(value);
-             return (displayValue.suffix ? displayValue.text + displayValue.suffix : '')
-      }
-      //somethingstr=valuesNumeric?.values.at(1).map(displayval).toString();
-      somethingstr=displayValue.suffix;
-      
-      // somethingstr=
-      // valuesNumeric
-      // ? valuesNumeric.values[0].map((value) => {
-      //     const displayValue = valuesNumeric.display!(value);
-      //     return (
-      //        { color: displayValue.color, text: displayValue.text, suffix:displayValue.suffix ? displayValue.suffix : ''}
-      //     )})
-      // : "nix".toString()
-      // //const v = valuesNumericvalues.map((value)
-
-      //somethingstr = (JSON.stringify(valuesNumeric.display(500))).toString();
-      //somethingstr = options.colorScheme
-      //somethingstr = getFieldDisplayName(valuesNumeric, frame)
-
-      //console.log(nodestr);
-
-      //somethingstr = options.globalUnitFormat;
+    //      somethingstr=displaytext(50000)+displaysuffix(50000)
     }
     const graph = {nodes, links, colors};
 
@@ -182,7 +163,7 @@ export const SankeyPanel: React.FC<Props> = ({ options, data, width, height }) =
   // ------------------------------- CHART  ------------------------------
   const chart = svg => {
 
-    const sankey = new Sankey(svg)
+  const sankey = new Sankey(svg)
       .width(width)
       .height(height)
       .align(options.align)
@@ -191,11 +172,17 @@ export const SankeyPanel: React.FC<Props> = ({ options, data, width, height }) =
       .displayValues(options.displayValues)
       .highlightOnHover(options.highlightOnHover)
       .opacity(options.opacity)
-      .globalDecimals(options.globalDecimals)
-      .globalUnitFormat(options.globalUnitFormat)
+      .fontsize(options.fontsize)
+      .fontcolor(options.fontcolor)
+      .displayReference(displayReference)
       .data(graph)
 
+  
+
     try {
+      //const displayValue = displayReference!(200)   
+      //somethingstr= (JSON.stringify(displayValue))?.toString();
+      //sankey.displayReference(displayReference)
       sankey.render();
     } catch (renderError) {
       setError({isError: true, message: renderError.message})
@@ -207,6 +194,7 @@ export const SankeyPanel: React.FC<Props> = ({ options, data, width, height }) =
     :
     !isDebug ?
     <div>
+      <p>Something: {somethingstr}</p>
       <svg
         viewBox={`0 0 ${width} ${height}`}
         ref={node => {
@@ -215,7 +203,6 @@ export const SankeyPanel: React.FC<Props> = ({ options, data, width, height }) =
             .remove();
           d3.select(node).call(chart);
         }}
-  
       />
     </div>
     :
@@ -228,7 +215,6 @@ export const SankeyPanel: React.FC<Props> = ({ options, data, width, height }) =
             .remove();
           d3.select(node).call(chart);
         }}
-  
       />
       <div className={styles.textBox}>
       <div><div style={{display: 'inline-block'}}>options.globalUnitFormat</div>: <div style={{display: 'inline-block'}}>{options.globalUnitFormat}</div></div>
