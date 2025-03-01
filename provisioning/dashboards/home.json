@@ -1,0 +1,118 @@
+{
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": {
+            "type": "grafana",
+            "uid": "-- Grafana --"
+          },
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations & Alerts",
+          "type": "dashboard"
+        }
+      ]
+    },
+    "editable": true,
+    "fiscalYearStartMonth": 0,
+    "graphTooltip": 0,
+    "id": 3,
+    "links": [],
+    "panels": [
+      {
+        "datasource": {
+          "type": "grafana-testdata-datasource",
+          "uid": "trlxrdZVk"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "decimals": 2,
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "kWh"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 0
+        },
+        "id": 1,
+        "options": {
+          "align": "Justify",
+          "colorScheme": "Tableau10",
+          "columnSource": "",
+          "columnTarget": "",
+          "columnValue": "0.value",
+          "displayValues": "total",
+          "edgeColor": "path",
+          "fontcolor": "#ccccdc",
+          "fontsize": 11,
+          "highlightOnHover": false,
+          "isDebug": false,
+          "opacity": 0.4,
+          "optSource": "0.source",
+          "optTarget": "0.target",
+          "optValue": "0.value",
+          "optvalue": "0.value",
+          "text": "Default value of text input option"
+        },
+        "pluginVersion": "11.5.2",
+        "targets": [
+          {
+            "csvContent": "\"source\",\"target\",\"value\"\nNetzbezug#595979,Verbrauch#dd5500,221.4\nBatteriesystem#336600,Eigenverbrauch#ff9000,338.0\nPV-Anlage#ffe000,Indirektverbrauch#76b500,354.4\nBatteriesystem#336600,Verlust#aa0000,16.4\nPV-Anlage#ffe000,Direktverbrauch#ffc000,212.4\nPV-Anlage#ffe000,Einspeisung#bfbfbf,143.8\nEigenverbrauch#ff9000,Verbrauch#dd5500,550.4\nIndirektverbrauch#76b500,Batteriesystem#336600,354.4\nDirektverbrauch#ffc000,Eigenverbrauch#ff9000,212.4\nEinspeisung#bfbfbf,Netzeinspeisung#595959,143.8\nNetzeinspeisung#595959,Netzbezug#595979,0.0",
+            "datasource": {
+              "type": "grafana-testdata-datasource",
+              "uid": "trlxrdZVk"
+            },
+            "refId": "A",
+            "scenarioId": "csv_content"
+          },
+          {
+            "csvContent": "\"id\",\"color\"\n1,\"#dd5500\"",
+            "datasource": {
+              "type": "grafana-testdata-datasource",
+              "uid": "trlxrdZVk"
+            },
+            "refId": "B",
+            "scenarioId": "csv_content"
+          }
+        ],
+        "title": "Panel Title",
+        "type": "lillalux-sankey-panel"
+      }
+    ],
+    "preload": false,
+    "refresh": "",
+    "schemaVersion": 40,
+    "tags": [],
+    "templating": {
+      "list": []
+    },
+    "time": {
+      "from": "now-6h",
+      "to": "now"
+    },
+    "timepicker": {},
+    "timezone": "browser",
+    "title": "SankeyCsv",
+    "uid": "bee8g6l3tdam8e",
+    "version": 19,
+    "weekStart": ""
+  }

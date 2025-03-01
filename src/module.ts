@@ -1,7 +1,12 @@
-import { FieldType, FieldConfigProperty,PanelPlugin, } from '@grafana/data';
+import { FieldConfigProperty,PanelPlugin,  } from '@grafana/data';
+//import { ColorDimensionEditor } from 'app/features/dimensions/editors' //'../../grafana/public/app/features/dimensions/editors';
+
+
+//import { } from 'app/features/dimensions/editors';
+
 import { SankeyOptions } from './types';
-import { SankeyPanel } from './SankeyPanel';
-import { FieldEditor } from './FieldEditor';
+import { SankeyPanel} from './SankeyPanel';
+import { FieldEditor} from './FieldEditor';
 
 export const plugin = new PanelPlugin<SankeyOptions>(SankeyPanel)
 .useFieldConfig({
@@ -77,16 +82,71 @@ export const plugin = new PanelPlugin<SankeyOptions>(SankeyPanel)
       },
     })
     .addCustomEditor({
-      id: 'valueFieldName',
-      path: 'valueFieldName',
-      name: 'Field Value',
-      description: 'Defaults to the first number field.',
+      id: 'source',
+      path: 'optSource',
+      name: 'Source Column',
+      description: 'Defaults to the first string column.',
+      defaultValue: undefined,
       //category: ['Dimensions'],
-      editor: FieldEditor,
-      settings: {
-        filterByType: [FieldType.number],
-      },
+      editor: FieldEditor
     })
+    .addCustomEditor({
+      id: 'target',
+      path: 'optTarget',
+      name: 'Target Column',
+      description: 'Defaults to the second string column.',
+      defaultValue: undefined,
+      //category: ['Dimensions'],
+      editor: FieldEditor
+    })
+    .addCustomEditor({
+      id: 'value',
+      path: 'optValue',
+      name: 'Value Column',
+      description: 'Defaults to the first numeric column.',
+      defaultValue: undefined,
+      //category: ['Dimensions'],
+      editor: FieldEditor
+    })
+    // .addCustomEditor({
+    //   id: 'background.color',
+    //   path: 'background.color',
+    //   name: 'Color',
+    //   editor: ColorDimensionEditor,
+    //   settings: {},
+    //   defaultValue: {
+    //     // Configured values
+    //     fixed: '',
+    //   },
+    // })
+    // .addCustomEditor({
+    //   id: 'columnSource',
+    //   path: 'columnSource',
+    //   name: 'Source Column',
+    //   description: 'Defaults to the first string column.',
+    //   defaultValue: 'source', //defaultField.source,
+    //   //category: ['Dimensions'],
+    //   editor: FieldEditorString1
+
+    // })
+    // .addCustomEditor({
+    //   id: 'columnTarget',
+    //   path: 'columnTarget',
+    //   name: 'Target Column',
+    //   description: 'Defaults to the second string field.',
+    //   defaultValue: defaultField.target,
+    //   //category: ['Dimensions'],
+    //   editor: FieldEditorString2
+    // })
+    // .addCustomEditor({
+    //   id: 'columnValue',
+    //   path: 'columnValue',
+    //   name: 'Value Column',
+    //   description: 'Defaults to the first number field.',
+    //   defaultValue: defaultField.value,
+    //   //category: ['Dimensions'],
+    //   editor: FieldEditorNumber
+    // })
     .addTextInput({
     path: 'text',
     name: 'Simple text option',

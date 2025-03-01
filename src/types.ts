@@ -19,4 +19,7 @@ export interface SankeyOptions {
   colorScheme: Color;
   displayValues: DisplayValues;
   highlightOnHover: boolean;
+  columnSource: string;
+  columnTarget: string;
+  columnValue: string;
 }

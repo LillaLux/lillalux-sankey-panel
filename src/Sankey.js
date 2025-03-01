@@ -53,7 +53,11 @@ export class Sankey {
     this._displayReference = null;
     //this._displayFunction();
  }
-  
+
+  _displayProcessor(value){
+      return (this._displayReference?this._displayReference(value):{text: value, suffix:""})
+  }
+
   _init() {
     this._setBoundDimensions();
     this._setColorScale();
@@ -211,7 +215,8 @@ export class Sankey {
   _labelNode(currentNode) {
     const nodesAtDepth = this._nodes.filter(node => node.depth === currentNode.depth);
     const totalAtDepth = d3.sum(nodesAtDepth, node => node.value);
-    const nodedisplay = this._displayReference(parseFloat(currentNode.value));
+    //const nodedisplay = this._displayReference(parseFloat(currentNode.value));
+    const nodedisplay = this._displayProcessor(parseFloat(currentNode.value));
     const nodeValue = nodedisplay.text + nodedisplay.suffix;
     const nodePercent = this._formatPercent(currentNode.value / totalAtDepth);
 
@@ -363,6 +368,7 @@ export class Sankey {
     return arguments.length ? (this._fontcolor = _, this) : this._fontcolor;
   }
   displayReference(_) {
+    //console.log(_)
     return arguments.length ? (this._displayReference = _, this) : this._displayReference;
   }
   
