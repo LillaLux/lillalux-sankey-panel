@@ -1,4 +1,10 @@
+/* *
+*
+* @type {string}
+*
+**/
 type SankeyAlign = 'Left' | 'Right' | 'Center' | 'Justify';
+
 type EdgeColor = 'input' | 'output' | 'path' | 'none';
 type DisplayValues = 'total' | 'percentage' | 'both' | 'none';
 type Color =

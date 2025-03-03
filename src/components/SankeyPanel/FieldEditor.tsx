@@ -4,6 +4,7 @@ import { StandardEditorProps, SelectableValue} from '@grafana/data';
 import { Select } from '@grafana/ui';
 import { FieldContainerInstance } from './SankeyPanel';
 
+
 export const defaultField = {source: "", target: "", value:""};
 
 export const FieldEditor = ({ item, value, onChange, context }: StandardEditorProps<string>) => {

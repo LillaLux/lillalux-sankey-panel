@@ -19,9 +19,11 @@ services:
 
     environment:
       NODE_ENV: development
-      GF_LOG_FILTERS: plugin.lillalux-sankey-panel:debug
+      GF_LOG_FILTERS: plugin.lillalux-sankey-panel:debug, rendering:debug
       GF_LOG_LEVEL: debug
       GF_DATAPROXY_LOGGING: 1
       GF_PLUGINS_ALLOW_LOADING_UNSIGNED_PLUGINS: lillalux-sankey-panel
       GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH: /etc/grafana/provisioning/dashboards/home.json
       GF_USERS_DEFAULT_THEME: dark
+      GF_RENDERING_SERVER_URL: http://renderer:8081/render
+      GF_RENDERING_CALLBACK_URL: http://grafana:3000/

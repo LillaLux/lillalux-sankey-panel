@@ -5,8 +5,7 @@ import { FieldConfigProperty,PanelPlugin,  } from '@grafana/data';
 //import { } from 'app/features/dimensions/editors';
 
 import { SankeyOptions } from './types';
-import { SankeyPanel} from './SankeyPanel';
-import { FieldEditor} from './FieldEditor';
+import { SankeyPanel, FieldEditor} from './components/';
 
 export const plugin = new PanelPlugin<SankeyOptions>(SankeyPanel)
 .useFieldConfig({

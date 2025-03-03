@@ -3,42 +3,14 @@ import React, { useState, useEffect } from 'react';
 import * as d3 from 'd3';
 import { PanelProps, Field, FieldType } from '@grafana/data';
 import { SankeyOptions } from 'types';
-import { Sankey } from 'Sankey'
+import { Sankey } from './Sankey'
 import { ErrorMessage } from 'Error'
-import { css, cx } from '@emotion/css';
 import { useStyles2, useTheme2 } from '@grafana/ui';
 import { defaultField } from './FieldEditor';
-import { FieldContainer } from './FieldContainer';
 
-const getStyles1 = (theme: GrafanaTheme2) => ({
-
-  elementWrapper: css({
-    padding: theme.spacing(1, 2),
-    background: theme.colors.background.secondary,
-  }),
-});
 
 interface Props extends PanelProps<SankeyOptions> {}
 
-const getStyles = () => {
-  return {
-    wrapper: css`
-      font-family: Open Sans;
-      position: relative;
-    `,
-    svg: css`
-      position: absolute;
-      top: 0;
-      left: 0;
-    `,
-    textBox: css`
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      padding: 10px;
-    `,
-  };
-};
 let isDebug = false
 let sourcestr = ""
 let targetstr = ""
@@ -54,10 +26,10 @@ const CHART_FIELD_DEFINTION = {
   target:{fieldPosition:1,fieldType: FieldType.string},
   value:{fieldPosition:0,fieldType: FieldType.number}
 }
+
 const CHART_FIELD_COPY = JSON.parse(JSON.stringify(CHART_FIELD_DEFINTION));
 console.log(CHART_FIELD_DEFINTION)
 console.log(CHART_FIELD_COPY)
-
 
 const fieldContainer = new FieldContainer(CHART_FIELD_COPY);
 
@@ -65,9 +37,6 @@ export const FieldContainerInstance = () => {return fieldContainer}
 
 //fieldContainer._logFieldContainer();
   
-
-
-
 export const SankeyPanel: React.FC<Props> = ({ options, data, width, height }) => {
   isDebug = options.isDebug 
   //console.log ('Start')
@@ -105,20 +74,15 @@ export const SankeyPanel: React.FC<Props> = ({ options, data, width, height }) =
   fieldContainer.addOption(options)
   fieldContainer.readAccesors()
 
-  //fieldContainer._logFieldContainer();
-  //fieldContainer._logFieldList();
-  //fieldContainer._logFieldRefernce();
-    
+  // const validateOptions = (opt) => {
+  //   let isValid = true;
 
-  const validateOptions = (opt) => {
-    let isValid = true;
-
-    // REQUIRED FIELDS
-    if (!(opt.source)) {
-      setError({ isError: true, message: columnsNotCfg })
-      return isValid = false;
-    }
-  }
+  //   // REQUIRED FIELDS
+  //   if (!(opt.source)) {
+  //     setError({ isError: true, message: columnsNotCfg })
+  //     return isValid = false;
+  //   }
+  // }
 
   const strChk = (str: string) => {return str === ""? "<empty>": str}
 
@@ -194,18 +158,6 @@ export const SankeyPanel: React.FC<Props> = ({ options, data, width, height }) =
 
   const buildGraph = () => {
 
-    
-    //const frame = data.series[0];
-    
-    //console.log("buildGraph")
-
-    //const sourceAccesor = frame.fields.find(field => field.name === CHART_REQUIRED_FIELDS.source);
-    //const targetAccesor = frame.fields.find(field => field.name === CHART_REQUIRED_FIELDS.target);
-
-    //valueAccesor = frame.fields.find(field => field.name === CHART_REQUIRED_FIELDS.value);
-    //console.log(valueAccesor)
-      //setDisp(valueAccesor.display)
-    //displayReference = valueAccesor.display;
     fieldContainer.addOption(options)
 
     fieldContainer.readAccesors()
@@ -265,6 +217,7 @@ export const SankeyPanel: React.FC<Props> = ({ options, data, width, height }) =
         .opacity(options.opacity)
         .fontsize(options.fontsize)
         .fontcolor(options.fontcolor)
+        .backgroundcolor(theme.colors.background.primary)
         .displayReference(fieldContainer.getDisplayByNum(2))
         .data(graph)
 

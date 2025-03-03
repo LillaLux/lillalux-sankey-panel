@@ -367,6 +367,10 @@ export class Sankey {
   fontcolor(_) {
     return arguments.length ? (this._fontcolor = _, this) : this._fontcolor;
   }
+  backgroundcolor(_) {
+    return arguments.length ? (this._background = _, this) : this._background;
+  }
+
   displayReference(_) {
     //console.log(_)
     return arguments.length ? (this._displayReference = _, this) : this._displayReference;
