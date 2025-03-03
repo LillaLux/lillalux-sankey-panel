@@ -1,0 +1,40 @@
+{
+  "$schema": "https://raw.githubusercontent.com/grafana/grafana/main/docs/sources/developers/plugins/plugin.schema.json",
+  "type": "panel",
+  "name": "Sankey-Panel",
+  "id": "lillalux-sankey-panel",
+  "info": {
+    "keywords": [
+      "sankey",
+      "d3",
+      "grafana",
+      "panel"
+    ],
+    "description": "",
+    "author": {
+      "name": "Lillalux"
+    },
+    "logos": {
+      "small": "img/logo.svg",
+      "large": "img/logo.svg"
+    },
+    "links": [
+      {
+        "name": "GitHub",
+        "url": "https://github.com/LillaLux/lillalux-sankey-panel"
+      }
+    ],
+    "screenshots": [
+      {
+        "name": "Panel",
+        "path": "img/sankey.png"
+      }
+    ],
+    "version": "%VERSION%",
+    "updated": "%TODAY%"
+  },
+  "dependencies": {
+    "grafanaDependency": ">=10.0.0",
+    "plugins": []
+  }
+}
