@@ -5,11 +5,9 @@ import { PanelProps, Field, FieldType } from '@grafana/data';
 import { SankeyOptions } from 'types';
 import { Sankey } from 'components/SankeyPanel/Sankey'
 import { ErrorMessage } from 'Error'
-//import { css, cx } from '@emotion/css';
 import { useStyles2, useTheme2 } from '@grafana/ui';
 import { defaultField } from '../FieldEditorContainer/FieldEditor';
 import { FieldContainer } from '../FieldEditorContainer/FieldContainer';
-//import { FieldContainer,defaultField } from '../../components';
 import { getStyles } from '../../styles';
 
 let isDebug = false
@@ -72,7 +70,7 @@ export const SankeyPanel: React.FC<Props> = ({ options, data, width, height }) =
       setError({isError: true, message: data.error.message})
     :
       setGraph(buildGraph())
-  }, [data])
+  }, [data.error]) // eslint-disable-line react-hooks/exhaustive-deps
 
   fieldContainer.setFrames(data.series)
   fieldContainer.addOption(options)
