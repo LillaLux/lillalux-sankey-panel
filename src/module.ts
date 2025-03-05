@@ -1,4 +1,4 @@
-import { Field, FieldConfigProperty,FieldType,PanelPlugin,  } from '@grafana/data';
+import { FieldConfigProperty,PanelPlugin,  } from '@grafana/data';
 //import { ColorDimensionEditor } from 'app/features/dimensions/editors' //'../../grafana/public/app/features/dimensions/editors';
 
 
@@ -28,28 +28,8 @@ export const plugin = new PanelPlugin<SankeyOptions>(SankeyPanel)
   },
 })
 .setPanelOptions((builder) => {
-  return builder
-  // .addUnitPicker({
-  //   name: 'Unit',
-  //   path: 'globalUnitFormat',
-  //   defaultValue: 'kWh',
-  //   category: ['Global'],
-  //   description: 'Use this unit format when it is not specified in overrides or detected in data',
-    
-  // })
-  // .addNumberInput({
-  //   name: 'Decimals',
-  //   path: 'globalDecimals',
-  //   description: 'Display specified number of decimals',
-  //   defaultValue: 2,
-  //   settings: {
-  //     min: 0,
-  //     integer: true,
-  //   },
-  //   category: ['Global'],
-  // })
-  
-  .addSliderInput
+  builder
+   .addSliderInput
   ({
     path: 'opacity',
     name: 'Opacity',
@@ -108,24 +88,36 @@ export const plugin = new PanelPlugin<SankeyOptions>(SankeyPanel)
       //category: ['Dimensions'],
       editor: FieldEditor
     })
-    .addFieldNamePicker({
-      path: 'testSource',
-      name: 'Source Field test ',
-      description: 'Defaults to the first numeric column.',
-      settings:{
-        filter: (f: Field) => f.type ===FieldType.string,
-        noFieldsMessage: 'No strings field found'
-      }
-    })
-    .addFieldNamePicker({
-      path: 'testTarget',
-      name: 'Target Field test ',
-      description: 'Defaults only for testing.',
-      settings:{
-        filter: (f: Field) => f.type === FieldType.string,
-        noFieldsMessage: 'No strings field found',     
-      }
-    })
+    // .addNestedOptions({
+    //   category: ['Nodes'],
+    //   path: 'nodes',
+    //   build: (builder) => {
+    //     builder.addCustomEditor({
+    //       name: 'Arc sections',
+    //       path: 'arcs',
+    //       id: 'arcs',
+    //       editor: ArcOptionsEditor,
+    //     });
+    //   },
+    // });
+    // .addFieldNamePicker({
+    //   path: 'testSource',
+    //   name: 'Source Field test ',
+    //   description: 'Defaults to the first numeric column.',
+    //   settings:{
+    //     filter: (f: Field) => f.type ===FieldType.string,
+    //     noFieldsMessage: 'No strings field found'
+    //   }
+    // })
+    // .addFieldNamePicker({
+    //   path: 'testTarget',
+    //   name: 'Target Field test ',
+    //   description: 'Defaults only for testing.',
+    //   settings:{
+    //     filter: (f: Field) => f.type === FieldType.string,
+    //     noFieldsMessage: 'No strings field found',     
+    //   }
+    // })
 
     // .addCustomEditor({
     //   id: 'background.color',
@@ -301,9 +293,11 @@ export const plugin = new PanelPlugin<SankeyOptions>(SankeyPanel)
       name: 'Show input values',
       defaultValue: false,
     })
-    .addBooleanSwitch({
-      path: 'highlightOnHover',
-      name: 'Highlight connections on node hover',
-      defaultValue: false,
-    });
-});
+    // .addBooleanSwitch({
+    //   path: 'highlightOnHover',
+    //   name: 'Highlight connections on node hover',
+    //   defaultValue: false,
+    // });
+    return builder
+ 
+  });

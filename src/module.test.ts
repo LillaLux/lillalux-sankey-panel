@@ -9,22 +9,36 @@ describe('plugin', () => {
     expect(plugin).toBeInstanceOf(PanelPlugin);
   });
 
-  // it('Should add inputs', () => {
-  //   /**
-  //    * Builder
-  //    */
-  //   const builder: any = {
-  //     addFieldNamePicker: jest.fn().mockImplementation(() => builder),
-  //   };
+  it('Should add inputs', () => {
+    /**
+     * Builder
+     */
+    const builder: any = {
+      addFieldNamePicker: jest.fn().mockImplementation(() => builder),
+      addSliderInput: jest.fn().mockImplementation(() => builder),
+      addColorPicker: jest.fn().mockImplementation(() => builder),
+      addCustomEditor: jest.fn().mockImplementation(() => builder),
+      addTextInput: jest.fn().mockImplementation(() => builder),
+      addSelect: jest.fn().mockImplementation(() => builder),
+      addBooleanSwitch: jest.fn().mockImplementation(() => builder),
+    };
 
-  //   /**
-  //    * Supplier
-  //    */
-  //   plugin['optionsSupplier'](builder);
+    /**
+     * Supplier
+     */
+    plugin['optionsSupplier'](builder);
 
-  //   /**
-  //    * Inputs
-  //    */
-  //   //expect(builder.addFieldNamePicker).toHaveBeenCalled();
-  // });
+    /**
+     * Inputs
+     */
+    //expect(builder.addSliderInput.addSliderInput.addColorPicker.addCustomEditor.addCustomEditor.addCustomEdito.addTextInputr.addSelect.addSelect.addSelect.addSelect.addBooleanSwitch).toHaveBeenCalled();
+    expect(builder.addSliderInput).toHaveBeenCalled();
+    expect(builder.addColorPicker).toHaveBeenCalled();
+    expect(builder.addCustomEditor).toHaveBeenCalled();
+    //expect(builder.addFieldNamePicker).toHaveBeenCalled();
+    
+    
+    //  addSliderInput.addColorPicker.addCustomEditor.addCustomEditor.addCustomEdito.addTextInputr.addSelect.addSelect.addSelect.addSelect.addBooleanSwitch).toHaveBeenCalled();
+    
+  });
 });

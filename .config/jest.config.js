@@ -12,6 +12,8 @@ module.exports = {
   moduleNameMapper: {
     '\\.(css|scss|sass)$': 'identity-obj-proxy',
     'react-inlinesvg': path.resolve(__dirname, 'jest', 'mocks', 'react-inlinesvg.tsx'),
+    // added by GK
+    '^d3-(.+)$': '<rootDir>/node_modules/d3-$1/dist/d3-$1.js',
   },
   modulePaths: ['<rootDir>/src'],
   setupFilesAfterEnv: ['<rootDir>/jest-setup.js'],
@@ -41,3 +43,4 @@ module.exports = {
   // ES module without it being transformed first. ./config/README.md#esm-errors-with-jest
   transformIgnorePatterns: [nodeModulesToTransform(grafanaESModules)],
 };
+

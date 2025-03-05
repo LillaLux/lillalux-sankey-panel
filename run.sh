@@ -9,3 +9,7 @@ fi
 if [ "$1" -eq "03" ]; then
     codium . 
 fi
+if [ "$1" -eq "10" ]; then
+    #nvm install 22
+    npm run test:ci
+fi

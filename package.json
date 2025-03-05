@@ -72,7 +72,7 @@
     "server": "docker compose up --build",
     "sign": "npx --yes @grafana/sign-plugin@latest",
     "test": "jest --watch --onlyChanged",
-    "test:ci": "jest --maxWorkers 4",
+    "test:ci": "jest --maxWorkers 4 --coverage",
     "typecheck": "tsc --noEmit"
   },
   "version": "1.0.0"

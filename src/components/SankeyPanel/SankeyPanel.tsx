@@ -9,6 +9,7 @@ import { useStyles2, useTheme2 } from '@grafana/ui';
 import { defaultField } from '../FieldEditorContainer/FieldEditor';
 import { FieldContainer } from '../FieldEditorContainer/FieldContainer';
 import { getStyles } from '../../styles';
+import { TestIds } from '../../constants';
 
 let isDebug = false
 let sourcestr = ""
@@ -241,10 +242,13 @@ export const SankeyPanel: React.FC<Props> = ({ options, data, width, height }) =
   };
 
   return (error.isError ?
-    <ErrorMessage message={error.message} />
+    <div data-testid={TestIds.panel.root} >
+      <ErrorMessage message={error.message} />
+    </div>
     :
     !isDebug ?
-    <div>
+    <div data-testid={TestIds.panel.root} >
+      
       <svg
         viewBox={`0 0 ${width} ${height}`}
         ref={node => {
@@ -256,7 +260,7 @@ export const SankeyPanel: React.FC<Props> = ({ options, data, width, height }) =
       />
     </div>
     :
-    <div>
+    <div data-testid={TestIds.panel.root} >
       <svg
         viewBox={`0 0 ${width} ${height}`}
         ref={node => {
