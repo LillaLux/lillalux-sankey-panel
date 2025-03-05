@@ -1,0 +1,16 @@
+services:
+  grafana:
+    extends:
+      file: .config/docker-compose-base.yaml
+      service: grafana
+  renderer:
+    image: grafana/grafana-image-renderer:latest
+    ports:
+      - 8081
+      
+volumes:
+  mygrafana:
+    driver: local
+
+
+
