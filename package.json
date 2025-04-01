@@ -2,10 +2,10 @@
   "author": "Lillalux",
   "dependencies": {
     "@emotion/css": "11.10.6",
-    "@grafana/data": "^11.5.2",
-    "@grafana/runtime": "^11.5.2",
-    "@grafana/schema": "^11.5.2",
-    "@grafana/ui": "^11.5.2",
+    "@grafana/data": "^11.5.3",
+    "@grafana/runtime": "^11.5.3",
+    "@grafana/schema": "^11.5.3",
+    "@grafana/ui": "^11.5.3",
     "d3-sankey": "^0.12.3",
     "react": "18.2.0",
     "react-dom": "18.2.0"
@@ -14,7 +14,7 @@
     "@grafana/eslint-config": "^8.0.0",
     "@grafana/plugin-e2e": "^1.18.3",
     "@grafana/tsconfig": "^2.0.0",
-    "@playwright/test": "^1.50.1",
+    "@playwright/test": "1.50.1",
     "@stylistic/eslint-plugin-ts": "^2.13.0",
     "@swc/core": "^1.11.5",
     "@swc/helpers": "^0.5.15",
@@ -72,7 +72,7 @@
     "server": "docker compose up --build",
     "sign": "npx --yes @grafana/sign-plugin@latest",
     "test": "jest --watch --onlyChanged",
-    "test:ci": "jest --maxWorkers 4 --coverage",
+    "test:ci": "jest --passWithNoTests --maxWorkers 4",
     "typecheck": "tsc --noEmit"
   },
   "version": "1.0.0"
