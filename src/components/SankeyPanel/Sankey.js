@@ -71,16 +71,30 @@ export class Sankey {
   // ------------------------------   COLOR   -------------------------------
 
   _setColorScale() {
-    //this._colorScale = d3.scaleOrdinal(d3[`scheme${this._colorScheme}`]);
+    if (this._colorScheme !== 'NoSchema' )
+    {
+      this._colorScale = d3.scaleOrdinal(d3[`scheme${this._colorScheme}`]);
+    }else {
+      this._colorScale = d3.scaleOrdinal(this._data.nodes.map((e) => {return e.name}), this._data.colors);
+    }
     // if (this._data && this._data.colors.lenght > 0){
     //this._colorScale = d3.scaleOrdinal(this._data.nodes, ["#e74c3c","9b59b6","#b3b6b7","#e74c3c","#f9e79f","#f1c40f","#83b6b7","#f1c40f","red","red"]);
-    this._colorScale = d3.scaleOrdinal(this._data.nodes, this._data.colors);
+    //console.log(this._data.nodes)
+    //console.log(this._data.nodes.map((e) => {return e.name}))
+    //console.log(this._data.colors)
+    
     // }else{
     //   this._colorScale = d3.scaleOrdinal(d3[`scheme${this._colorScheme}`]);
     // }
   }
 
+
   _color(node) {
+    // if (node.name === "PV-Anlage"){
+    //   console.log(node.name)
+    //   console.log(this._colorScale(node.name))
+    // }
+    
     return this._colorScale(node.name);
   }
 
@@ -108,6 +122,7 @@ export class Sankey {
     });
     this._nodes = sankeyData.nodes;
     this._links = sankeyData.links;
+    //console.log(this._links)
   }
 
   // ----------------------------   VALIDATIONS   -----------------------------
@@ -314,6 +329,7 @@ export class Sankey {
   // -----------------------------------------------------------------------  
 
   data(_) {
+    //console.log(_)
     return arguments.length ? (this._data = _, this) : this._data;
   };
   displayValues(_) {

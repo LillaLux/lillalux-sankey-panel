@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import * as d3 from 'd3';
 import { PanelProps, Field, FieldType } from '@grafana/data';
-import { SankeyOptions } from 'types';
+import { FieldDefinition, SankeyOptions } from 'types';
 import { Sankey } from 'components/SankeyPanel/Sankey'
 import { ErrorMessage } from 'Error'
 import { useStyles2, useTheme2 } from '@grafana/ui';
@@ -21,19 +21,20 @@ let somethingstr = ""
 let valueframe = null
 
 //let CHART_FIELD_DEFINTION = {}
-const CHART_FIELD_DEFINTION = {
-  source:{fieldPosition:0,fieldType: FieldType.string},
-  target:{fieldPosition:1,fieldType: FieldType.string},
-  value:{fieldPosition:0,fieldType: FieldType.number}
+const CHART_FIELD_DEFINTION: FieldDefinition = {
+  source: {basic: {fieldPosition:0,fieldType: FieldType.string}, extension:{}},
+  target: {basic: {fieldPosition:1,fieldType: FieldType.string}, extension:{}},
+  value: {basic: {fieldPosition:0,fieldType: FieldType.number}, extension:{}}
 }
-const CHART_FIELD_COPY = JSON.parse(JSON.stringify(CHART_FIELD_DEFINTION));
-console.log(CHART_FIELD_DEFINTION)
-console.log(CHART_FIELD_COPY)
+
+//const CHART_FIELD_COPY = JSON.parse(JSON.stringify(CHART_FIELD_DEFINTION));
+//console.log(CHART_FIELD_DEFINTION)
+//console.log(CHART_FIELD_COPY)
 
 
-const fieldContainer = new FieldContainer(CHART_FIELD_COPY);
+const fieldContainer = new FieldContainer(CHART_FIELD_DEFINTION);
 
-export const FieldContainerInstance = () => {return fieldContainer}
+export const FieldContainerInstance = (): FieldContainer  => {return fieldContainer}
 
 //fieldContainer._logFieldContainer();
   
@@ -72,7 +73,7 @@ export const SankeyPanel: React.FC<Props> = ({ options, data, width, height }) =
     :
       setGraph(buildGraph())
     
-  },  [data]) // eslint-disable-line react-hooks/exhaustive-deps
+  },  [data])   // eslint-disable-line react-hooks/exhaustive-deps
 
   fieldContainer.setFrames(data.series)
   fieldContainer.addOption(options)
@@ -144,57 +145,90 @@ export const SankeyPanel: React.FC<Props> = ({ options, data, width, height }) =
     return isValid;
   }
 
-  const iterate = (obj) => {
-    let rtn = []
-    for (let i = 0; i < obj.length; i++) {
-      rtn.push(obj[i])
-    }    
-    return rtn
-  }
-  const getcolor = (obj) => {
-    let rtn = []
-    for (let i = 0; i < obj.length; i++) {
-      rtn.push(obj[i].color)
-    }    
-    return rtn
-  }
-  const getnode = (obj) => {
-    let rtn = []
-    for (let i = 0; i < obj.length; i++) {
-      rtn.push({name: obj[i].name})
-    }    
-    return rtn
-  }
+  // const iterate = (obj) => {
+  //   let rtn = []
+  //   for (let i = 0; i < obj.length; i++) {
+  //     rtn.push(obj[i])
+  //   }    
+  //   return rtn
+  // }
+  // const getcolor = (obj) => {
+  //   let rtn = []
+  //   if (obj !== undefined) {
+  //     for (let i = 0; i < obj.length; i++) {
+  //       rtn.push(obj[i].color)
+  //     }    
+  //   }
+  //   return rtn
+  // }
+  // const getnode = (obj) => {
+  //   let rtn = []
+  //   if (obj !== undefined) {
+  //     for (let i = 0; i < obj.length; i++) {
+  //       rtn.push({name: obj[i].node.split("#")[0]})
+  //     }    
+  //   }
+  //   return rtn
+  // }
 
   const buildGraph = () => {
+    setError({});
 
     fieldContainer.addOption(options)
+    //console.log(data)
     fieldContainer.readAccesors()
 
-    const sources = fieldContainer.getAccessorByNum(0)?.values.toArray();
-    const targets = fieldContainer.getAccessorByNum(1)?.values.toArray();
-    const values = fieldContainer.getAccessorByNum(2)?.values.toArray();
-    console.log("sources")
-    console.log(sources)
-    console.log("targets")
-    console.log(targets)
-    console.log("values")
-    console.log(values)
+    // const sources = fieldContainer.getAccessorByNum(0)?.values.toArray();
+    // const targets = fieldContainer.getAccessorByNum(1)?.values.toArray();
+    // const values = fieldContainer.getAccessorByNum(2)?.values.toArray();
+    // // // console.log("sources")
+    // console.log(sources)
+    // console.log("targets")
+    // console.log(targets)
+    // console.log("values")
+    // console.log(values)
 
-    //const colors = iterate(colorAccesor?.values.toArray());
+    // //const colors = iterate(colorAccesor?.values.toArray());
  
-    const isValid = validate(sources, targets, values);
-    if (!isValid) {return}
+    // const isValid = validate(sources, targets, values);
+    // if (!isValid) {return}
 
-    const zip = d3.zip(sources, targets, values);
-  
-    const nodecolor  = Array.from(new Set(sources.concat(targets))).map(node => ({ name: node.split("#")[0], color: "#" + node.split("#")[1] }));
-    //const nodes = Array.from(new Set(sources.concat(targets))).map(node => ({ name: node.split("#")[0]}));
-    const links = zip.map(d => ({ source: d[0].split("#")[0], target: d[1].split("#")[0], value: +d[2].toFixed(2) }));
+    //const zip = d3.zip(sources, targets, values);
 
-    const colors = getcolor(nodecolor)
-    const nodes = getnode(nodecolor)
-    console.log(nodes)
+    // let links: any[] 
+    // let linksIn: any[] 
+    // let linksOut: any[] 
+    
+    // const nodecolor  = Array.from(new Set(sources.concat(targets))).map(node => ({ name: node.split("#")[0], color: "#" + node.split("#")[1] }));
+    // //const nodes = Array.from(new Set(sources.concat(targets))).map(node => ({ name: node.split("#")[0]}));
+    //const links = zip.map(d => ({ source: d[0].split("#")[0], target: d[1].split("#")[0], value: +d[2].toFixed(2) }));
+    //linksIn = zip.map(d => ({ source: d[0], target: d[1], value: d[2].toFixed(2) }));
+    //console.log(zip.map(d => ({ source: d[0], target: d[1], value: d[2].toFixed(2)})))
+    //linksOut = fieldContainer.getLinks().map(d => ({source: d.source, target: d.target, value: d.value.toFixed(2) }))
+    const links = fieldContainer.getLinks()
+    //console.log(links)
+
+    
+    // for (let j=0; j<linksIn.length; j++ ) {
+    //   if (!(linksIn[j].source === linksOut[j].source && linksIn[j].target === linksOut[j].target && linksIn[j].value === linksOut[j].value)) {
+    //     return
+    //   }
+    // }
+    
+    //console.log(links1)
+
+    //const colors = getcolor(nodecolor)
+    //const colors = getcolor(options?.nodeColors)
+    
+//    const nodes = getnode(nodecolor)
+    //const nodes = getnode(options?.nodeColors)
+    const nodes = fieldContainer.getNodes()
+    //console.log(nodes)
+
+    //fieldContainer.mapColors(options?.nodeColors)
+    const colors = fieldContainer.getColor()
+    //console.log(colors)
+
     //const displayReference = valueAccesor.display
     
     if (isDebug){
@@ -204,6 +238,7 @@ export const SankeyPanel: React.FC<Props> = ({ options, data, width, height }) =
       linkstr = (JSON.stringify(links))?.toString();
     //      somethingstr=displaytext(50000)+displaysuffix(50000)
     }
+
     const graph = {nodes, links, colors};
 
     return graph

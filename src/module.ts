@@ -5,8 +5,12 @@ import { FieldConfigProperty,PanelPlugin,  } from '@grafana/data';
 //import { } from 'app/features/dimensions/editors';
 
 import { SankeyOptions } from './types';
-import { SankeyPanel} from './components/SankeyPanel/';
-import { FieldEditor} from './components/FieldEditorContainer';
+import { SankeyPanel } from './components/SankeyPanel/';
+import { FieldEditor } from './components/FieldEditorContainer';
+import { NodeColorEditor } from './components/NodeColorEditor';
+
+//import { ArcOptionsEditor} from './components/NodeColorEditor';
+
 
 export const plugin = new PanelPlugin<SankeyOptions>(SankeyPanel)
 .useFieldConfig({
@@ -61,6 +65,67 @@ export const plugin = new PanelPlugin<SankeyOptions>(SankeyPanel)
         disableNamedColors: true,
       },
     })
+    .addSelect({
+      path: 'colorScheme',
+      name: 'Color',
+      defaultValue: 'NoSchema',
+      settings: {
+        options: [
+          {
+            value: 'NoSchema',
+            label: 'No Schema',
+          },
+          {
+            value: 'Tableau10',
+            label: 'Tableau10',
+          },
+          {
+            value: 'Category10',
+            label: 'Category10',
+          },
+          {
+            value: 'Accent',
+            label: 'Accent',
+          },
+          {
+            value: 'Dark2',
+            label: 'Dark2',
+          },
+          {
+            value: 'Paired',
+            label: 'Paired',
+          },
+          {
+            value: 'Pastel1',
+            label: 'Pastel1',
+          },
+          {
+            value: 'Pastel2',
+            label: 'Pastel2',
+          },
+          {
+            value: 'Set1',
+            label: 'Set1',
+          },
+          {
+            value: 'Set2',
+            label: 'Set2',
+          },
+          {
+            value: 'Set3',
+            label: 'Set3',
+          },
+        ],
+      },
+    })
+    .addCustomEditor({
+      name: 'Node / Color Assignment ',
+      path: 'nodeColors',
+      id: 'nc',
+      //editor: ArcOptionsEditor,
+      editor: NodeColorEditor,
+      showIf: (c) => c.colorScheme === "NoSchema",
+    })
     .addCustomEditor({
       id: 'source',
       path: 'optSource',
@@ -92,12 +157,7 @@ export const plugin = new PanelPlugin<SankeyOptions>(SankeyPanel)
     //   category: ['Nodes'],
     //   path: 'nodes',
     //   build: (builder) => {
-    //     builder.addCustomEditor({
-    //       name: 'Arc sections',
-    //       path: 'arcs',
-    //       id: 'arcs',
-    //       editor: ArcOptionsEditor,
-    //     });
+    //     builder
     //   },
     // });
     // .addFieldNamePicker({
@@ -158,7 +218,7 @@ export const plugin = new PanelPlugin<SankeyOptions>(SankeyPanel)
     //   //category: ['Dimensions'],
     //   editor: FieldEditorNumber
     // })
-    .addTextInput({
+  .addTextInput({
     path: 'text',
     name: 'Simple text option',
     description: 'Description of panel option',
@@ -185,55 +245,6 @@ export const plugin = new PanelPlugin<SankeyOptions>(SankeyPanel)
           {
             value: 'Center',
             label: 'Center',
-          },
-        ],
-      },
-    })
-    .addSelect({
-      path: 'colorScheme',
-      name: 'Color',
-      defaultValue: 'Tableau10',
-      settings: {
-        options: [
-          {
-            value: 'Tableau10',
-            label: 'Tableau10',
-          },
-          {
-            value: 'Category10',
-            label: 'Category10',
-          },
-          {
-            value: 'Accent',
-            label: 'Accent',
-          },
-          {
-            value: 'Dark2',
-            label: 'Dark2',
-          },
-          {
-            value: 'Paired',
-            label: 'Paired',
-          },
-          {
-            value: 'Pastel1',
-            label: 'Pastel1',
-          },
-          {
-            value: 'Pastel2',
-            label: 'Pastel2',
-          },
-          {
-            value: 'Set1',
-            label: 'Set1',
-          },
-          {
-            value: 'Set2',
-            label: 'Set2',
-          },
-          {
-            value: 'Set3',
-            label: 'Set3',
           },
         ],
       },
